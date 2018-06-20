@@ -12,13 +12,21 @@ index=$4
 buildpack_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 
 echo "Installing OpenJDK"
-mkdir -p $cache_dir/$index/
-wget -nv https://java-buildpack.cloudfoundry.org/openjdk/trusty/x86_64/openjdk-1.8.0_131.tar.gz -O $cache_dir/$index/openjdk.tar.gz
+if [ -e "$cache_dir/$index/openjdk.tar.gz" ]; then
+  echo "Found openjdk.tar.gz in $cache_dir/$index/"
+else
+  mkdir -p $cache_dir/$index/
+  wget -nv https://java-buildpack.cloudfoundry.org/openjdk/trusty/x86_64/openjdk-1.8.0_131.tar.gz -O $cache_dir/$index/openjdk.tar.gz
+fi
 mkdir -p $deps_dir/$index/java
 tar xzf $cache_dir/$index/openjdk.tar.gz -C $deps_dir/$index/java
 
 echo "Installing Maven"
-wget -nv http://apache.mirrors.lucidnetworks.net/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz -O $cache_dir/$index/maven.tar.gz
+if [ -e "$cache_dir/$index/maven.tar.gz" ]; then
+  echo "Found maven.tar.gz in $cache_dir/$index/"
+else
+	wget -nv http://apache.mirrors.lucidnetworks.net/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz -O $cache_dir/$index/maven.tar.gz
+fi
 tar xzf $cache_dir/$index/maven.tar.gz -C $cache_dir/$index/
 export PATH=$PATH:$deps_dir/$index/java/bin:$cache_dir/$index/apache-maven-3.5.3/bin
 mvn --version
