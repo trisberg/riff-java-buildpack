@@ -10,7 +10,7 @@ deps_dir=$3
 index=$4
 
 echo "Building function"
-export PATH=$PATH:$deps_dir/$index/java/bin:$cache_dir/$index/apache-maven-3.5.3/bin
+export PATH=$PATH:$deps_dir/$index/java/bin:$cache_dir/$index/apache-maven-3.5.4/bin
 mvn -DskipTests -B -q package
 jar=$(ls target/*.jar)
 echo "Built $jar"
